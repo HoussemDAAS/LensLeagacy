@@ -1,5 +1,5 @@
 import {useQuery,useMutation,useQueryClient,useInfiniteQuery}from '@tanstack/react-query'
-import { SignInAccount, SignoutAccount, createPost, createUserAccount } from '../appwrite/api'
+import { SignInAccount, SignoutAccount, createPost, createUserAccount, getRecentPosts } from '../appwrite/api'
 import { INewPost, INewUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys';
 
@@ -30,3 +30,11 @@ export const useCreateUserAccount = () => {
       },
     });
   };
+
+
+  export const useGetRecentPosts = () => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      queryFn:getRecentPosts,
+    })
+  }
