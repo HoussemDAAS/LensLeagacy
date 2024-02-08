@@ -69,7 +69,7 @@ const SigninForm = () => {
   }
   return (
     <Form {...form}>
-      <div className="sm:w420 flex-center flex-col gap-5">
+      <div className="sm:w420 flex-center flex-col gap-5" >
         <img src="/assets/images/LensLegacy.png" alt="logo" />
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Log In</h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">

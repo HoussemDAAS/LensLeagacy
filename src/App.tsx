@@ -1,21 +1,14 @@
-import React from "react";
+
 import { Routes, Route } from "react-router-dom";
 import "./globals.css";
 import SigninForm from "./_auth/SigninForm";
-import { Home } from "./_root/pages";
+import { Home, Explore, Saved, AllUsers, CreatePost, EditPost, PostDetails, Profile, UpdateProfile, LikedPostes } from "./_root/pages";
 import SignupForm from "./_auth/SignupForm";
 import Authlayout from "./_auth/Authlayout";
 import RouteLayout from "./_root/pages/RouteLayout";
 
 import { Toaster } from "./components/ui/toaster";
-import Explore from "./_root/pages/Explore";
-import Saved from "./_root/pages/Saved";
-import AllUsers from "./_root/pages/AllUsers";
-import CreatePost from "./_root/pages/CreatePost";
-import EditPost from "./_root/pages/EditPost";
-import PostDetails from "./_root/pages/PostDetails";
-import Profile from "./_root/pages/Profile";
-import UpdateProfile from "./_root/pages/UpdateProfile";
+
 
 function App() {
   return (

@@ -27,7 +27,7 @@ export type INavLink = {
     caption: string;
     file: File[];
     location?: string;
-    tags?: string;
+    tags?: string; // Updated type to string[]
   };
   
   export type IUpdatePost = {

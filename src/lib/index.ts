@@ -9,5 +9,11 @@ export const SignupValdiation = z.object({
 
 export const SigninValdiation = z.object({
 email: z.string().email(),
-password: z.string().min(8,{message: "Password Too short"}).max(50),
+password: z.string().min(8).max(50),
 });
+export const PostValdiation = z.object({
+  caption :z.string().min(5).max(100),
+  file: z.custom<File[]>(),
+  location: z.string().min(2,{message: "Location Too short"}).max(50),
+  tags: z.string().min(2,{message: "Tags Too short"}).max(50),
+  });

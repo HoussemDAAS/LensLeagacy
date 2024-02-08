@@ -32,7 +32,7 @@ module.exports = {
         'light-1': '#FFFFFF',
         'light-2': '#EFEFEF',
         'light-3': '#a4a4a4',
-        'light-4': '#5C5C7B',
+        'light-4': '#a4a4a4',
       },
       screens: {
         'xs': '480px',
