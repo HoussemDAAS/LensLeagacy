@@ -1,11 +1,19 @@
 import Loader from "@/components/ui/shared/Loader";
 import PostCard from "@/components/ui/shared/PostCard";
+import { toast } from "@/components/ui/use-toast";
 import { useGetRecentPosts } from "@/lib/react-query/querie";
 import { Models } from "appwrite";
 
 const Home = () => {
   
   const {data :posts,isPending:isPostLoading,isError :isErrorPosts}=useGetRecentPosts();
+  if (!navigator.onLine) {
+    toast({
+      title: "No Connection",
+      description: "Please check your network connection.",
+      
+    });
+  }
   return (
     <div className="flex flex-1">
       <div className="home-container">
