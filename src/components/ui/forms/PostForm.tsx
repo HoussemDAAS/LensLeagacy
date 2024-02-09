@@ -132,7 +132,7 @@ navigate ("/");
         />
         <div className="flex gap-4 items-center justify-end">
         <Button type="button" className="shad-button_dark_4">Cancel</Button>
-        <Button type="submit" className="shad-button_primary whitespace-nowrap">{isLoadingCreate ||isLoadingUpdate && <Loader />  }submit</Button>
+        <Button type="submit" className="shad-button_primary whitespace-nowrap">{isLoadingCreate ||isLoadingUpdate ? <Loader /> :action }</Button>
         </div>
         
       </form>

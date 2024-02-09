@@ -11,7 +11,7 @@ import Loader from "./Loader";
 import { useLocation } from "react-router-dom";
 
 type PostStatesProps = {
-  post: Models.Document;
+  post?: Models.Document;
   userId: string;
 };
 
@@ -20,7 +20,7 @@ type PostStatesProps = {
 const PostStats = ({ post, userId }: PostStatesProps) => {
 
   const location = useLocation();
-            const likesList = post.likes.map((user: Models.Document) => user.$id);
+            const likesList = post?.likes.map((user: Models.Document) => user.$id);
 
             const [likes, setLikes] = useState<string[]>(likesList);
             const [isSaved, setisSaved] = useState(false);
@@ -32,7 +32,7 @@ const PostStats = ({ post, userId }: PostStatesProps) => {
             const { data: currentUser } = useGetCurrentUser();
 
             const savedPostRecord = currentUser?.save?.find(
-              (record: Models.Document) => record.post.$id === post.$id
+              (record: Models.Document) => record.post.$id === post?.$id
             );
 
 
@@ -49,7 +49,7 @@ const PostStats = ({ post, userId }: PostStatesProps) => {
       newLike = newLike.filter((id) => id !== userId);
     } else newLike.push(userId);
     setLikes(newLike);
-    likePost({ postId: post.$id, likesArray: newLike });
+    likePost({ postId: post?.$id || "", likesArray: newLike });
   };
   const handleSavePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -61,7 +61,7 @@ const PostStats = ({ post, userId }: PostStatesProps) => {
       return deleteSavedPost(savedPostRecord.$id);
     }
 
-    savePost({ userId: userId, postId: post.$id });
+    savePost({ userId: userId, postId: post?.$id||"" });
     setisSaved(true);
   };
   const containerStyles = location.pathname.startsWith("/profile")

@@ -2,7 +2,10 @@
 
 const Explore = () => {
   return (
-    <div>
+    <div className="eplore-container">
+      <div>
+        
+      </div>
       Explore
     </div>
   )
