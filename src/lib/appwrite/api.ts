@@ -1,5 +1,5 @@
   
-import { INewPost, INewUser} from "@/types";
+import { INewPost, INewUser, IUpdatePost} from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -223,8 +223,89 @@ export async function createPost(post: INewPost) {
           appwriteConfig.savesCollectionId,
           savedRecordId
         );
+
     
         if (!statusCode) throw Error;
+    
+        return { status: "Ok" };
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    export async function getPostById(postId: string) {
+      try {
+       const post =await databases.getDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postsCollectionId,
+        postId
+
+       )
+       return post;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    export async function updatePost(post: IUpdatePost) {
+      const hasFileToUpdate=post.file.length>0;
+      try {
+        let image={
+          imageUrl:post.imageUrl,
+          imageId:post.imageId
+        }
+        if(hasFileToUpdate){
+          
+          const uploadedFile = await uploadFile(post.file[0]);
+          if (!uploadedFile) throw Error;
+          // Get file url
+          const fileUrl = getFilePreview(uploadedFile.$id);
+          if (!fileUrl) {
+            await deleteFile(uploadedFile.$id);
+            throw Error;
+          }
+        image={...image,imageUrl:fileUrl,imageId:uploadedFile.$id}
+        }
+        // Upload file to appwrite storage
+    
+    
+        // Convert tags into array
+        const tags = post.tags?.replace(/ /g, "").split(",") || [];
+    
+        // Create post
+        const updatePost = await databases.updateDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.postsCollectionId,
+          post.postId,
+          {
+            
+            caption: post.caption,
+            imageUrl: image.imageUrl,
+            imageId: image.imageId,
+            location: post.location,
+            tags: tags,
+          }
+        );
+    
+        if (!updatePost) {
+          await deleteFile(post.imageId);
+          throw Error;
+        }
+    
+        return updatePost;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    export async function deletePost(postId: string,imageId:string) {
+      try {
+        const statusCode = await databases.deleteDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.postsCollectionId,
+          postId
+        );
+        const statusCode2 = await deleteFile(imageId);
+    
+        if (!statusCode||!statusCode2) throw Error;
     
         return { status: "Ok" };
       } catch (error) {

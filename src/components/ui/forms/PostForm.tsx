@@ -9,7 +9,7 @@ import FileUploder from "../shared/FileUploder"
 import { Input } from "../input"
 import { PostValdiation } from "@/lib"
 import { Models } from "appwrite"
-import { useCreatePost } from "@/lib/react-query/querie"
+import { useCreatePost, useDeletePost, useUpdatePost } from "@/lib/react-query/querie"
 import { useUserContext } from "@/_auth/AuthContext"
 import { toast } from "../use-toast"
 import { useNavigate } from "react-router-dom"
@@ -18,9 +18,12 @@ import Loader from "../shared/Loader"
 
 type PostFormProps = {
     post?: Models.Document;
+    action:'Create' | 'Update';
 }
-const PostForm = ({post} :PostFormProps) => {
+const PostForm = ({post,action} :PostFormProps) => {
 const {mutateAsync: createPost,isPending :isLoadingCreate} = useCreatePost();
+const {mutateAsync: updatePost,isPending :isLoadingUpdate} = useUpdatePost();
+// const {mutateAsync: deletePost,isPending :isLoadingDelete} = useDeletePost();
 const {user} =useUserContext();
 const navigate = useNavigate();
     const form = useForm<z.infer<typeof PostValdiation>>({
@@ -36,6 +39,22 @@ const navigate = useNavigate();
      
       // 2. Define a submit handler.
       async function onSubmit(values: z.infer<typeof PostValdiation>) {
+        if (action === 'Update' && post){
+            const updatedPost = await updatePost({
+          ...values,
+          postId: post.$id,
+          imageId: post?.imageId,
+          imageUrl: post?.imageUrl,
+        });
+            if (!updatedPost){
+                toast({
+                    title: "Something went wrong. Please try again",
+                    variant: "destructive",
+                })
+            }
+          
+            return   navigate (`/posts/${post.$id}`);
+        }
         const newPost = await createPost({
             userId: user.id, // Include userId property here
             caption: values.caption,
@@ -50,8 +69,8 @@ const navigate = useNavigate();
             })
         }
 navigate ("/");
+
     }
-    
   return (
    
       <Form {...form}>
@@ -113,7 +132,7 @@ navigate ("/");
         />
         <div className="flex gap-4 items-center justify-end">
         <Button type="button" className="shad-button_dark_4">Cancel</Button>
-        <Button type="submit" className="shad-button_primary whitespace-nowrap">{isLoadingCreate && <Loader />  }submit</Button>
+        <Button type="submit" className="shad-button_primary whitespace-nowrap">{isLoadingCreate ||isLoadingUpdate && <Loader />  }submit</Button>
         </div>
         
       </form>
