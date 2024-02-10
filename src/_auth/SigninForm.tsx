@@ -70,7 +70,7 @@ const SigninForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w420 flex-center flex-col gap-5" >
-        <img src="/assets/images/LensLegacy.png" alt="logo" />
+        <img src="/assets/images/LensLegacy.png" alt="logo" width={170} height={36} />
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Log In</h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">
           To use LensLegacy, Please enter your details
@@ -133,7 +133,7 @@ const SigninForm = () => {
               "Sign in"
             )}
           </Button>
-          <p className="text-light-2 text-small-regular text-center mt-2">
+          <p className="text-light-2 text-small-regular text-center mt-4 mb-4">
             Don't have an account?{" "}
             <Link
               to="/sign-up"
