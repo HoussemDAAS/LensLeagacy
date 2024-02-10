@@ -1,6 +1,6 @@
 import { Models } from "appwrite"
 import Loader from "./Loader";
-import { Grid } from "lucide-react";
+
 import GridPostList from "./GridPostList";
 
 
@@ -17,8 +17,10 @@ const SearchResult = ({isSearchFetching, searchedPosts}:SearchResultProps) => {
       </div>
     )
   }
+   // @ts-ignore
   if (searchedPosts && searchedPosts.documents.length >0) {
     return (
+       // @ts-ignore
       <GridPostList posts={searchedPosts.documents} />
     )
     

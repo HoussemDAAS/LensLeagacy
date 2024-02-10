@@ -164,7 +164,7 @@ export async function createPost(post: INewPost) {
  export const deleteFile = async (fileId: string) => {
     try {
       const file = await storage.deleteFile(appwriteConfig.storageId, fileId);
-      return {status: "success", message: "File deleted successfully"};
+      return {status: "success", message: "File deleted successfully", file: file};
     } catch (error) {
       console.log(error);
     }

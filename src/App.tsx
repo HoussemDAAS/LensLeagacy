@@ -2,7 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 import "./globals.css";
 import SigninForm from "./_auth/SigninForm";
-import { Home, Explore, Saved, AllUsers, CreatePost, EditPost, PostDetails, Profile, UpdateProfile, LikedPostes } from "./_root/pages";
+import { Home, Explore, Saved, AllUsers, CreatePost, EditPost, PostDetails, Profile, UpdateProfile} from "./_root/pages";
 import SignupForm from "./_auth/SignupForm";
 import Authlayout from "./_auth/Authlayout";
 import RouteLayout from "./_root/pages/RouteLayout";
