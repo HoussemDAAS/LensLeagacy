@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 const Home = () => {
+ // @ts-ignore
   const { data: posts, fetchNextPage, hasNextPage, isPending: isPostLoading } = useGetPosts();
   const { data: recentPosts, isPending: isRecentPostLoading } = useGetRecentPosts();
   const { ref, inView } = useInView();
