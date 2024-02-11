@@ -18,7 +18,7 @@ const PostCard = ({post}:PostCardProps) => {
    <div className="flex-between">
     <div className="flex items-center gap-3">
 <Link to={`/profile/${post.creator.$id}`}>
-    <img src={post?.creator?.imageUrl || 'assets/icons/profile-placeholder.svg'} alt="creator" className="rounded-full w-12 lg:h-12" />
+    <img src={post?.creator?.imageUrl || 'assets/icons/profile-placeholder.svg'} alt="creator" className="rounded-full w-12 lg:h-12 object-cover "  />
 </Link>
 
 <div className="flex flex-col">
@@ -45,7 +45,7 @@ const PostCard = ({post}:PostCardProps) => {
         ))}
       </ul>
         </div>
-        <img src={post.imageUrl ||'/assets/icons/profile-placeholder.svg'} alt="postPicture" className="post-card_img"/>
+        <img src={post.imageUrl ||'/assets/icons/profile-placeholder.svg'} alt="postPicture" className="post-card_img "/>
     </Link>
     <PostStats post={post} userId={user.id}/>
     </div>
