@@ -31,7 +31,7 @@ const GridPostList = ({
                 <img
                   src={post.creator.imageUrl}
                   alt="creator"
-                  className="h-8 w-8 rounded-full"
+                  className="h-8 w-8 rounded-full object-cover"
                 />
                 <p className="line-clam-1">{post.creator.name}</p>
               </div>
