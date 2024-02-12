@@ -1,5 +1,5 @@
   
-import { INewPost, INewUser, IUpdatePost, IUpdateUser} from "@/types";
+import { INewComment, INewPost, INewUser, IUpdatePost, IUpdateUser} from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -438,3 +438,41 @@ export async function createPost(post: INewPost) {
       }
       
     }   
+    export async function createComment(Comments: INewComment) {
+      console.log('thecomment is ',Comments);
+      try {
+          const newComment = await databases.createDocument(
+              appwriteConfig.databaseId,
+              appwriteConfig.commentsCollectionId,
+              ID.unique(),
+              {
+                creator: Comments.userId,
+               posts: Comments.postId,
+                comment: Comments.comment,
+              }
+             
+          );
+          console.log('New comment created:', newComment);
+          if (!newComment) {
+              throw new Error('Failed to create comment');
+          }
+          return newComment;
+      } catch (error) {
+          console.error('Error creating comment:', error);
+          throw error; // Rethrow the error to stop the mutation from being marked as successful
+      }
+  }
+
+  export async function getComments(postId: string, userId: string) {
+    try {
+      const comments = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.commentsCollectionId,
+        [Query.equal("posts", postId), Query.equal("creator", userId)],
+      );
+      return comments;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  

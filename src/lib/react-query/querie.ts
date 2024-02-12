@@ -1,6 +1,6 @@
 import {useQuery,useMutation,useQueryClient,useInfiniteQuery}from '@tanstack/react-query'
-import { SignInAccount, SignoutAccount, createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserById, getUsers, likePost, savePost, searchPosts, updatePost, updateUser } from '../appwrite/api'
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types'
+import { SignInAccount, SignoutAccount, createComment, createPost, createUserAccount, deletePost, deleteSavedPost, getComments, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserById, getUsers, likePost, savePost, searchPosts, updatePost, updateUser } from '../appwrite/api'
+import { INewComment, INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys';
 
 export const useCreateUserAccount = () => {
@@ -196,3 +196,35 @@ export const useCreateUserAccount = () => {
       queryFn: getUsers,
     });
   }
+  export const useCreateComment = (postId: string) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (comment: INewComment) => createComment(comment),
+        onSuccess: () => {
+            // Invalidate the query for fetching comments for the specific post
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_COMMENTS, postId],
+            });
+        },
+        onError: (error: any) => {
+            console.error('Error creating comment:', error);
+            throw error;
+        },
+    });
+};
+
+  export const useGetComments = (postId: string, userId: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_COMMENTS, postId, userId],
+        queryFn: async () => {
+            try {
+                const comments = await getComments(postId, userId);
+                return comments;
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+                throw error;
+            }
+        },
+        enabled: !!postId && !!userId,
+    });
+};
