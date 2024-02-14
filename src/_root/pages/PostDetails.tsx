@@ -37,7 +37,6 @@ const PostDetails = () => {
     useCreateComment(id || "");
   const { data: Comment, isPending: isLoading } = useGetComments(
     id || "",
-    user.id
   );
 
   const form = useForm<z.infer<typeof commentschema>>({
