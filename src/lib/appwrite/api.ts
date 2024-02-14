@@ -452,7 +452,7 @@ export async function createPost(post: INewPost) {
               }
              
           );
-          console.log('New comment created:', newComment);
+ 
           if (!newComment) {
               throw new Error('Failed to create comment');
           }
@@ -463,14 +463,47 @@ export async function createPost(post: INewPost) {
       }
   }
 
-  export async function getComments(postId: string, userId: string) {
+  export async function getComments(postId: string) {
     try {
       const comments = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.commentsCollectionId,
-        [Query.equal("posts", postId), Query.equal("creator", userId)],
+        [Query.equal("posts", postId)],
       );
       return comments;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  export async function verifyEmail() {
+    try {
+      const url = `${window.location.origin}/verifemail`;
+      const user = await account.createVerification(url);
+      if (user) {
+        console.log("Verification email sent");
+      }
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  export async function VerifAccount(userId:string,secret:string) {
+    try {
+      const verif = await account.updateVerification(userId,secret);
+
+     return verif;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  export async function VerifisValid(){
+    try {
+      const verif = await account.get();
+        if(verif.status===true){
+          return verif;
+        }
+    
     } catch (error) {
       console.log(error);
     }

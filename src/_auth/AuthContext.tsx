@@ -51,16 +51,22 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-useEffect(()=>{
-  if  (
-     localStorage.getItem('cookieFallback') === null ||
-    localStorage.getItem('cookieFallback')==='[]'
-  )navigate('/sign-in')
+useEffect(() => {
+  const pathname = window.location.pathname;
+  const isVerificationPage = pathname.includes("/verifemail");
 
-
-  checkAutherUser();
-},[])
-
+  // If not on the verification page, check authentication
+  if (!isVerificationPage) {
+    if (
+      localStorage.getItem("cookieFallback") === null ||
+      localStorage.getItem("cookieFallback") === "[]"
+    ) {
+      navigate("/sign-in");
+    } else {
+      checkAutherUser();
+    }
+  }
+}, []);
 
   const value = {
     user,

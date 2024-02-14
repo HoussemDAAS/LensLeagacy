@@ -19,12 +19,13 @@ import Loader from "@/components/ui/shared/Loader";
 import { useToast } from "@/components/ui/use-toast";
 import {useSignInAccount} from "@/lib/react-query/querie";
 import { useUserContext } from "./AuthContext";
+import { useState } from "react";
 
 const SigninForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAutherUser, isLoading: isUserLoading } = useUserContext();
-
+  const [error, setError] = useState('');
   const form = useForm<z.infer<typeof SigninValdiation>>({
   resolver: zodResolver(SigninValdiation),
   defaultValues: {
@@ -38,6 +39,7 @@ const SigninForm = () => {
 
 
   async function handleSignin(user: z.infer<typeof SigninValdiation>) {
+    setError('');
     try {
       const session = await signInAccount({
         email: user.email,
@@ -45,7 +47,7 @@ const SigninForm = () => {
       });
 
       if (!session) {
-        toast({ title: "Something went wrong. Please login your new account", });
+        setError("Invalid email or password.");
         
         navigate("/sign-in");
         
@@ -120,6 +122,11 @@ const SigninForm = () => {
               </FormItem>
             )}
           />
+          {error && (
+            <p className="text-red text-small-semibold text-center">
+              {error}
+            </p>
+          )}
           <Button
             type="submit"
             className="shad-button_primary flex justify-center items-center mt-3 gap-2"

@@ -155,7 +155,7 @@ const PostDetails = () => {
                 ))}
               </ul>
               <hr className="border w-full border-dark-4/80 m-2" />
-              <div className="max-h-[200px] overflow-y-auto scrollbar-hide scroll-smooth focus:scroll-auto">
+              <div className="max-h-[200px] overflow-y-auto custom-scrollbar">
                 <p className="body-bold text-light-1 py-2">Comments</p>
                 <ul className="flex flex-col gap-3 ">
                   {isLoading ? (

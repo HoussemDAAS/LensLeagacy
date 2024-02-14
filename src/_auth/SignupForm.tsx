@@ -20,8 +20,10 @@ import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateUserAccount,
   useSignInAccount,
+  useVerifEmail,
 } from "@/lib/react-query/querie";
 import { useUserContext } from "./AuthContext";
+
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -38,6 +40,7 @@ const SignupForm = () => {
   },
 });
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =useCreateUserAccount();
+  const {mutateAsync:verifyEmail}=useVerifEmail();
   const { mutateAsync: signInAccount, isPending: isSigningInUser } =useSignInAccount();
 
 
@@ -50,7 +53,8 @@ const SignupForm = () => {
         
         return;
       }
-
+      
+     
       const session = await signInAccount({
         email: user.email,
         password: user.password,
@@ -58,11 +62,17 @@ const SignupForm = () => {
 
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account", });
-        
-        navigate("/sign-in");
-        
-        return;
       }
+      const promise=verifyEmail();
+      promise.then(()=>{
+        navigate("/verifemail");
+        
+      })
+        
+      //   navigate("/sign-in");
+        
+      //   return;
+      // }
 
       const isLoggedIn = await checkAutherUser();
 

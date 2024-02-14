@@ -8,6 +8,7 @@ import Authlayout from "./_auth/Authlayout";
 import RouteLayout from "./_root/pages/RouteLayout";
 
 import { Toaster } from "./components/ui/toaster";
+import VerifEmail from "./_auth/VerifEmail";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route element={<Authlayout />}>
           <Route path="/sign-in" element={<SigninForm />} />
           <Route path="/sign-up" element={<SignupForm />} />
+          <Route path="/verifemail" element={<VerifEmail />} />
         </Route>
         {/*  private routes*/}
         <Route element={<RouteLayout />}>

@@ -1,5 +1,5 @@
 import {useQuery,useMutation,useQueryClient,useInfiniteQuery}from '@tanstack/react-query'
-import { SignInAccount, SignoutAccount, createComment, createPost, createUserAccount, deletePost, deleteSavedPost, getComments, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserById, getUsers, likePost, savePost, searchPosts, updatePost, updateUser } from '../appwrite/api'
+import { SignInAccount, SignoutAccount, VerifAccount, createComment, createPost, createUserAccount, deletePost, deleteSavedPost, getComments, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserById, getUsers, likePost, savePost, searchPosts, updatePost, updateUser, verifyEmail } from '../appwrite/api'
 import { INewComment, INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys';
 
@@ -8,9 +8,19 @@ export const useCreateUserAccount = () => {
       mutationFn: (user: INewUser) => createUserAccount(user),
     });
   };
+  export const useVerifEmail = () => {
+    return useMutation({
+      mutationFn: () => verifyEmail(),
+    });
+  }
+  export const useVerifAccount = () => {
+    return useMutation({
+      mutationFn: ({ userId, secret }: { userId: string, secret: string }) => VerifAccount(userId, secret),
+    });
+  }
   export const useSignInAccount = () => {
     return useMutation({
-      mutationFn: (user: { email: string; password: string }) =>
+      mutationFn: (user: { email: string,password: string }) =>
         SignInAccount(user),
     });
   };
@@ -213,18 +223,18 @@ export const useCreateUserAccount = () => {
     });
 };
 
-  export const useGetComments = (postId: string, userId: string) => {
+  export const useGetComments = (postId: string) => {
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_COMMENTS, postId, userId],
+        queryKey: [QUERY_KEYS.GET_COMMENTS, postId],
         queryFn: async () => {
             try {
-                const comments = await getComments(postId, userId);
+                const comments = await getComments(postId);
                 return comments;
             } catch (error) {
                 console.error('Error fetching comments:', error);
                 throw error;
             }
         },
-        enabled: !!postId && !!userId,
+        enabled: !!postId,
     });
 };

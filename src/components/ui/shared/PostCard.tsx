@@ -31,7 +31,7 @@ const PostCard = ({ post }: PostCardProps) => {
  const navigate = useNavigate();
   const { mutateAsync: createComment, isPending: isLoadingComment } =
     useCreateComment(post.$id);
-  const { data: Comment,isPending: isLoading } = useGetComments(post.$id, user.id);
+  const { data: Comment,isPending: isLoading } = useGetComments(post.$id);
   const form = useForm<z.infer<typeof commentschema>>({
     resolver: zodResolver(commentschema),
     defaultValues: {
@@ -44,10 +44,7 @@ const PostCard = ({ post }: PostCardProps) => {
       postId: post.$id,
       comment: values.comment,
     });
-    console.log(user.id);
-    console.log(post.$id);
-    console.log(values);
-    console.log(createdComment);
+  
     if (!createdComment) {
       toast({
         title: "Something went wrong. Please try again",
